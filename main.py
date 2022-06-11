@@ -3,7 +3,7 @@ import smtplib
 import random
 #-*- coding: utf-8 -*-
 switch = True
-start= False
+
 
 with open('data','r') as file:
     line=file.readlines()
@@ -64,14 +64,13 @@ def spam(TARGET):
         smtp.ehlo()
 
         smtp.login(E_MAIL, PASSWORD)
-        try:
-            while True:
-                body = 'Ayayaya!'
-                msg = f'Subject: {subject}\n\n{body}'
-                smtp.sendmail(E_MAIL, TARGET, msg)
-                print('Wiadomosc wyslana')
-        except KeyboardInterrupt:
-            pass
+
+        body = 'Ayayaya!'
+        msg = f'Subject: {subject}\n\n{body}'
+        while True:
+            smtp.sendmail(E_MAIL, TARGET, msg)
+            print('Wiadomosc wyslana')
+
 
 
 def send_email(TARGET):
@@ -99,17 +98,14 @@ def send_repeat(TARGET):
         smtp.ehlo()
 
         smtp.login(E_MAIL, PASSWORD)
-        try:
-            while True:
-                content = tuple(get_random_quote())
-                id = abs(content[1]) - 99
-                body = content[0]
-                msg = f'Subject: {subject}\n\n{body}'
-                smtp.sendmail(E_MAIL, TARGET, msg)
-                print('Wiadomosc wyslana, cytat nr -', id)
-                time.sleep(Time)
-        except KeyboardInterrupt:
-            pass
+        while True:
+            content = tuple(get_random_quote())
+            id = abs(content[1]) - 99
+            body = content[0]
+            msg = f'Subject: {subject}\n\n{body}'
+            smtp.sendmail(E_MAIL, TARGET, msg)
+            print('Wiadomosc wyslana, cytat nr -', id)
+            time.sleep(Time)
 
 
 def reset_used():
@@ -174,6 +170,7 @@ def set_time():
 create_avalible_id_list()
 
 print("set_target - ustawia adres odbiorcy\n"
+      "send - wysyła wiadomość\n"
       "show_target - pokazuje obecny adres odbiorcy\n"
       "start - zaczyna proces regularnego wysyłania wiadmości\n"
       "help - pokazuje liste komend\n"
@@ -221,12 +218,13 @@ while switch:
         print(Time)
 
     elif task=="show_amount":
-        print(Quotes)
+        print(int(Quotes)-100)
     elif task=='spam':
         spam(MAIN_TARGET)
 
     elif task == 'help':
         print("set_target - ustawia adres odbiorcy\n"
+              "send - wysyła wiadomość\n"
               "show_target - pokazuje obecny adres odbiorcy\n"
               "start - zaczyna proces regularnego wysyłania wiadmości\n"
               "help - pokazuje liste komend\n"
